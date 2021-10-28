@@ -30,6 +30,7 @@
 #ifndef VDB_MAPPING_DATA_NODE_H_INCLUDED
 #define VDB_MAPPING_DATA_NODE_H_INCLUDED
 
+#include <ostream>
 
 // TODO: maybe implement more operators (needed for openvdb), compiles for now
 template <class T>
@@ -44,9 +45,6 @@ public:
   //! Deconstructor
   virtual ~DataNode() {}
 
-  // void setData(const float data);
-
-  // float getData() const;
 
   void update(const T& data) { m_data = data; }
 
