@@ -28,6 +28,7 @@
 #ifndef VDB_MAPPING_ESA_VDB_MAPPING_H_INCLUDED
 #define VDB_MAPPING_ESA_VDB_MAPPING_H_INCLUDED
 
+#include "vdb_mapping/DataNode.h"
 #include "vdb_mapping/VDBMapping.h"
 
 namespace vdb_mapping {
@@ -43,11 +44,11 @@ struct Config : BaseConfig
   double prob_thres_max;
 };
 
-class ESAVDBMapping : public VDBMapping<float, Config>
+class ESAVDBMapping : public VDBMapping<DataNode<float>, Config>
 {
 public:
   ESAVDBMapping(const double resolution)
-    : VDBMapping<float, Config>(resolution)
+    : VDBMapping<DataNode<float>, Config>(resolution)
   {
   }
 
@@ -59,8 +60,8 @@ public:
   void setConfig(const Config& config) override;
 
 protected:
-  bool updateFreeNode(float& voxel_value, bool& active) override;
-  bool updateOccupiedNode(float& voxel_value, bool& active) override;
+  bool updateFreeNode(DataNode<float>& voxel_value, bool& active) override;
+  bool updateOccupiedNode(DataNode<float>& voxel_value, bool& active) override;
 
   /*!
    * \brief Probability update value for passing an obstacle
