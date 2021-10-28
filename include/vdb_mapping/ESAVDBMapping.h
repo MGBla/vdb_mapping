@@ -33,6 +33,13 @@
 
 namespace vdb_mapping {
 
+struct ESADataNode
+{
+  float occupancy;
+  int stone_type;       // dummy
+  float light_gradient; // dummy
+};
+
 /*!
  * \brief Accumulation of configuration parameters
  */
@@ -44,11 +51,11 @@ struct Config : BaseConfig
   double prob_thres_max;
 };
 
-class ESAVDBMapping : public VDBMapping<DataNode<float>, Config>
+class ESAVDBMapping : public VDBMapping<DataNode<ESADataNode>, Config>
 {
 public:
   ESAVDBMapping(const double resolution)
-    : VDBMapping<DataNode<float>, Config>(resolution)
+    : VDBMapping<DataNode<ESADataNode>, Config>(resolution)
   {
   }
 
@@ -60,8 +67,8 @@ public:
   void setConfig(const Config& config) override;
 
 protected:
-  bool updateFreeNode(DataNode<float>& voxel_value, bool& active) override;
-  bool updateOccupiedNode(DataNode<float>& voxel_value, bool& active) override;
+  bool updateFreeNode(DataNode<ESADataNode>& voxel_value, bool& active) override;
+  bool updateOccupiedNode(DataNode<ESADataNode>& voxel_value, bool& active) override;
 
   /*!
    * \brief Probability update value for passing an obstacle

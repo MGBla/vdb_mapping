@@ -31,20 +31,25 @@
 
 namespace vdb_mapping {
 
-bool ESAVDBMapping::updateFreeNode(DataNode<float>& voxel_value, bool& active)
+bool ESAVDBMapping::updateFreeNode(DataNode<ESADataNode>& voxel_value, bool& active)
 {
-  voxel_value.update(voxel_value.getData() + m_logodds_miss);
-  if (voxel_value.getData() < m_logodds_thres_min)
+  ESADataNode data = voxel_value.getData();
+  data.occupancy += m_logodds_miss;
+  voxel_value.update(data);
+
+  if (data.occupancy < m_logodds_thres_min)
   {
     active = false;
   }
   return true;
 }
 
-bool ESAVDBMapping::updateOccupiedNode(DataNode<float>& voxel_value, bool& active)
+bool ESAVDBMapping::updateOccupiedNode(DataNode<ESADataNode>& voxel_value, bool& active)
 {
-  voxel_value.update(voxel_value.getData() + m_logodds_hit);
-  if (voxel_value.getData() > m_logodds_thres_max)
+  ESADataNode data = voxel_value.getData();
+  data.occupancy += m_logodds_hit;
+  voxel_value.update(data);
+  if (data.occupancy > m_logodds_thres_max)
   {
     active = true;
   }

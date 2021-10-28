@@ -40,6 +40,10 @@ public:
   //! Construct an empty DataNode
   DataNode() {}
 
+  // Apparently really essentiell for some vdb::math call
+  // Without it throws a lot of errors
+  DataNode(int x) {}
+
   DataNode(T data) { m_data = data; }
 
   //! Deconstructor
