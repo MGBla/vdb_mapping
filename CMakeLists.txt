@@ -41,6 +41,7 @@ ADD_CLANGTIDY_TARGET(${PROJECT_NAME})
 ## Declare a C++ library
 add_library(${PROJECT_NAME} SHARED
   src/OccupancyVDBMapping.cpp 
+  src/ESAVDBMapping.cpp 
   )
 
 target_compile_options(${PROJECT_NAME} PUBLIC ${CXX14_FLAG})
