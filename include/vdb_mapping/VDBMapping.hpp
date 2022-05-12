@@ -503,3 +503,11 @@ void VDBMapping<TData, TConfig>::setConfig(const TConfig& config)
   m_map_directory_path = config.map_directory_path;
   m_config_set         = true;
 }
+
+template <typename DataT, typename ConfigT>
+bool VDBMapping<DataT, ConfigT>::insertDataCloud(const DataCloudT::ConstPtr& cloud,
+                                                 const Eigen::Matrix<double, 3, 1>& origin)
+{
+  // do nothing here, implement in respective template class
+  return false;
+}

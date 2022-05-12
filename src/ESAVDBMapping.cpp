@@ -88,4 +88,22 @@ void ESAVDBMapping::setConfig(const Config& config)
   m_config_set        = true;
 }
 
+bool ESAVDBMapping::insertDataCloud(const DataCloudT::ConstPtr& cloud,
+                                    const Eigen::Matrix<double, 3, 1>& origin)
+{
+  typename GridT::Accessor acc = m_vdb_grid->getAccessor();
+
+  for (const ESADataPoint& pt : *cloud)
+  {
+    auto index = m_vdb_grid->worldToIndex(openvdb::Vec3d((double)pt.x, (double)pt.y, (double)pt.z));
+    openvdb::math::Coord coord = openvdb::math::Coord(index.x(), index.y(), index.z());
+    auto voxel_value           = acc.getValue(coord);
+    ESADataNode data           = voxel_value.getData();
+    data.stone_type            = pt.stone_type;
+    data.light_gradient        = pt.light_gradient;
+    acc.setValue(coord, data);
+  }
+  return true;
+}
+
 } // namespace vdb_mapping

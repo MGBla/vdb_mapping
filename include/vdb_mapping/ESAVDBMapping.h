@@ -28,9 +28,34 @@
 #ifndef VDB_MAPPING_ESA_VDB_MAPPING_H_INCLUDED
 #define VDB_MAPPING_ESA_VDB_MAPPING_H_INCLUDED
 
+#define PCL_NO_PRECOMPILE
+#include <pcl/io/pcd_io.h>
+#include <pcl/pcl_macros.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+
+
 #include "vdb_mapping/DataNode.h"
 #include "vdb_mapping/VDBMapping.h"
 
+// https://pointclouds.org/documentation/tutorials/adding_custom_ptype.html
+struct ESADataPoint
+{
+  float x;
+  float y;
+  float z;
+  int stone_type;
+  float light_gradient;
+  PCL_MAKE_ALIGNED_OPERATOR_NEW // make sure our new allocators are aligned
+} EIGEN_ALIGN16;                // enforce SSE padding for correct memory alignment
+
+// needs to be outside of namespace
+// https://github.com/PointCloudLibrary/pcl/issues/1152
+POINT_CLOUD_REGISTER_POINT_STRUCT(
+  ESADataPoint,
+  (float, x, x)(float, y, y)(float, z, z)(int, stone_type, stone_type)(float,
+                                                                       light_gradient,
+                                                                       light_gradient))
 namespace vdb_mapping {
 
 struct ESADataNode
@@ -54,6 +79,8 @@ struct Config : BaseConfig
 class ESAVDBMapping : public VDBMapping<DataNode<ESADataNode>, Config>
 {
 public:
+  using DataCloudT = pcl::PointCloud<ESADataPoint>;
+
   ESAVDBMapping(const double resolution)
     : VDBMapping<DataNode<ESADataNode>, Config>(resolution)
   {
@@ -65,6 +92,17 @@ public:
    * \param config Configuration structure
    */
   void setConfig(const Config& config) override;
+
+  /*!
+   * \brief Handles the integration of new data into the VDB data structure.
+   *
+   * \param cloud Input cloud in map coordinates
+   * \param origin Sensor position in map coordinates
+   *
+   * \returns Was the insertion of the new cloud successful
+   */
+  bool insertDataCloud(const DataCloudT::ConstPtr& cloud,
+                       const Eigen::Matrix<double, 3, 1>& origin);
 
 protected:
   bool updateFreeNode(DataNode<ESADataNode>& voxel_value, bool& active) override;

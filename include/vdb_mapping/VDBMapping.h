@@ -65,6 +65,7 @@ class VDBMapping
 public:
   using PointT      = pcl::PointXYZ;
   using PointCloudT = pcl::PointCloud<PointT>;
+  using DataCloudT  = pcl::PointCloud<PointT>;
 
   using RayT  = openvdb::math::Ray<double>;
   using Vec3T = RayT::Vec3Type;
@@ -162,6 +163,17 @@ public:
                         const Eigen::Matrix<double, 3, 1>& origin,
                         UpdateGridT::Ptr& update_grid,
                         UpdateGridT::Ptr& overwrite_grid);
+
+  /*!
+   * \brief Handles the integration of new data into the VDB data structure.
+   *
+   * \param cloud Input cloud in map coordinates
+   * \param origin Sensor position in map coordinates
+   *
+   * \returns Was the insertion of the new cloud successful
+   */
+  bool insertDataCloud(const DataCloudT::ConstPtr& cloud,
+                       const Eigen::Matrix<double, 3, 1>& origin);
 
   /*!
    * \brief  Raycasts a Pointcloud into an update Grid
