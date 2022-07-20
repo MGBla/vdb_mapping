@@ -505,7 +505,8 @@ void VDBMapping<TData, TConfig>::setConfig(const TConfig& config)
 }
 
 template <typename DataT, typename ConfigT>
-bool VDBMapping<DataT, ConfigT>::insertDataCloud(const DataCloudT::ConstPtr& cloud,
+bool VDBMapping<DataT, ConfigT>::insertDataCloud(const std::string data_identifier,
+                                                 const DataCloudT::ConstPtr& cloud,
                                                  const Eigen::Matrix<double, 3, 1>& origin)
 {
   // do nothing here, implement in respective template class

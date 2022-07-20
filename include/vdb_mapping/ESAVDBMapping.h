@@ -34,6 +34,8 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
+#include <map>
+
 
 #include "vdb_mapping/DataNode.h"
 #include "vdb_mapping/VDBMapping.h"
@@ -44,25 +46,21 @@ struct ESADataPoint
   float x;
   float y;
   float z;
-  int stone_type;
-  float light_gradient;
+  int custom_type;
   PCL_MAKE_ALIGNED_OPERATOR_NEW // make sure our new allocators are aligned
 } EIGEN_ALIGN16;                // enforce SSE padding for correct memory alignment
 
 // needs to be outside of namespace
 // https://github.com/PointCloudLibrary/pcl/issues/1152
 POINT_CLOUD_REGISTER_POINT_STRUCT(
-  ESADataPoint,
-  (float, x, x)(float, y, y)(float, z, z)(int, stone_type, stone_type)(float,
-                                                                       light_gradient,
-                                                                       light_gradient))
+  ESADataPoint, (float, x, x)(float, y, y)(float, z, z)(int, custom_type, custom_type))
 namespace vdb_mapping {
 
 struct ESADataNode
 {
   float occupancy;
-  int stone_type;       // dummy
-  float light_gradient; // dummy
+  std::map<std::string, int> custom_data;
+  int custom_type;
 };
 
 /*!
@@ -101,7 +99,8 @@ public:
    *
    * \returns Was the insertion of the new cloud successful
    */
-  bool insertDataCloud(const DataCloudT::ConstPtr& cloud,
+  bool insertDataCloud(const std::string data_identifier,
+                       const DataCloudT::ConstPtr& cloud,
                        const Eigen::Matrix<double, 3, 1>& origin);
 
 protected:
