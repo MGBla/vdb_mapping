@@ -102,7 +102,13 @@ bool ESAVDBMapping::insertDataCloud(const std::string data_identifier,
     ESADataNode data                  = voxel_value.getData();
     data.custom_data[data_identifier] = pt.custom_type;
 
+    bool active = false;
+    if (data.occupancy > m_logodds_thres_max)
+    {
+      active = true;
+    }
     acc.setValue(coord, data);
+    acc.setActiveState(coord, active);
   }
   return true;
 }
