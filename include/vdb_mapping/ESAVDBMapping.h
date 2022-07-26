@@ -58,9 +58,9 @@ namespace vdb_mapping {
 
 struct ESADataNode
 {
-  float occupancy;
+  float occupancy = 0;
   std::map<std::string, int> custom_data;
-  int custom_type;
+  int custom_type = 0;
 };
 
 /*!
