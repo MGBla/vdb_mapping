@@ -46,20 +46,20 @@ struct ESADataPoint
   float x;
   float y;
   float z;
-  int custom_type;
+  float custom_type;
   PCL_MAKE_ALIGNED_OPERATOR_NEW // make sure our new allocators are aligned
 } EIGEN_ALIGN16;                // enforce SSE padding for correct memory alignment
 
 // needs to be outside of namespace
 // https://github.com/PointCloudLibrary/pcl/issues/1152
 POINT_CLOUD_REGISTER_POINT_STRUCT(
-  ESADataPoint, (float, x, x)(float, y, y)(float, z, z)(int, custom_type, custom_type))
+  ESADataPoint, (float, x, x)(float, y, y)(float, z, z)(float, custom_type, custom_type))
 namespace vdb_mapping {
 
 struct ESADataNode
 {
   float occupancy = 0;
-  std::map<std::string, int> custom_data;
+  std::map<std::string, float> custom_data;
   int custom_type = 0;
 };
 
