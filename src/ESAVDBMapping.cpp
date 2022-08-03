@@ -111,6 +111,7 @@ bool ESAVDBMapping::insertDataCloud(const std::string data_identifier,
     data.custom_data[data_identifier] = pt.custom_type;
     voxel_value.update(data);
 
+    acc.touchLeaf(coord);
     acc.setValueOnly(coord, voxel_value);
 
     {
