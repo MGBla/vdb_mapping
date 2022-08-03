@@ -96,16 +96,9 @@ bool ESAVDBMapping::insertDataCloud(const std::string data_identifier,
 
   for (const ESADataPoint& pt : *cloud)
   {
-    auto vec = openvdb::Vec3d((double)pt.x, (double)pt.y, (double)pt.z);
-    // auto index = m_vdb_grid->worldToIndex(vec);
-    auto index = m_vdb_grid->worldToIndex(vec - m_resolution / 2);
-    index      = index + 0.5;
-    // auto index = m_vdb_grid->worldToIndex(openvdb::Vec3d((double)pt.x, (double)pt.y,
-    //(double)pt.z));
-    openvdb::math::Coord coord =
-      openvdb::math::Coord(std::floor(index.x()), std::floor(index.y()), std::floor(index.z()));
-    // openvdb::math::Coord coord =
-    // openvdb::math::Coord(index.x(), index.y(), index.z());
+    auto vec   = openvdb::Vec3d((double)pt.x, (double)pt.y, (double)pt.z);
+    openvdb::math::Coord coord = openvdb::Coord::floor(m_vdb_grid->worldToIndex(vec));
+
     auto voxel_value                  = acc.getValue(coord);
     ESADataNode data                  = voxel_value.getData();
     data.custom_data[data_identifier] = pt.custom_type;
@@ -113,9 +106,6 @@ bool ESAVDBMapping::insertDataCloud(const std::string data_identifier,
 
     acc.touchLeaf(coord);
     acc.setValueOnly(coord, voxel_value);
-
-    {
-    }
   }
   return true;
 }
