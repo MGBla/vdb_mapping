@@ -96,8 +96,9 @@ bool ESAVDBMapping::insertDataCloud(const std::string data_identifier,
 
   for (const ESADataPoint& pt : *cloud)
   {
-    auto vec   = openvdb::Vec3d((double)pt.x, (double)pt.y, (double)pt.z);
-    openvdb::math::Coord coord = openvdb::Coord::floor(m_vdb_grid->worldToIndex(vec));
+    auto vec = openvdb::Vec3d((double)pt.x, (double)pt.y, (double)pt.z);
+    // add small epsilon to account for double precision errors
+    openvdb::math::Coord coord = openvdb::Coord::floor(m_vdb_grid->worldToIndex(vec + 0.0001));
 
     auto voxel_value                  = acc.getValue(coord);
     ESADataNode data                  = voxel_value.getData();
