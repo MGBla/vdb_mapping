@@ -38,7 +38,7 @@ class DataNode
 {
 public:
   //! Construct an empty DataNode
-  DataNode() {}
+  DataNode() = default;
 
   // Apparently really essentiell for some vdb::math call
   // Without it throws a lot of errors
@@ -47,7 +47,7 @@ public:
   DataNode(T data) { m_data = data; }
 
   //! Deconstructor
-  virtual ~DataNode() {}
+  virtual ~DataNode() = default;
 
 
   void update(const T& data) { m_data = data; }

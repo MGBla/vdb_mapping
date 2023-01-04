@@ -99,7 +99,7 @@ public:
    *
    * \returns Was the insertion of the new cloud successful
    */
-  bool insertDataCloud(const std::string data_identifier,
+  bool insertDataCloud(const std::string& data_identifier,
                        const DataCloudT::ConstPtr& cloud,
                        const Eigen::Matrix<double, 3, 1>& origin);
 
@@ -110,19 +110,19 @@ protected:
   /*!
    * \brief Probability update value for passing an obstacle
    */
-  double m_logodds_hit;
+  float m_logodds_hit;
   /*!
    * \brief Probability update value for passing free space
    */
-  double m_logodds_miss;
+  float m_logodds_miss;
   /*!
    * \brief Upper occupancy probability threshold
    */
-  double m_logodds_thres_min;
+  float m_logodds_thres_min;
   /*!
    * \brief Lower occupancy probability threshold
    */
-  double m_logodds_thres_max;
+  float m_logodds_thres_max;
 };
 
 } // namespace vdb_mapping

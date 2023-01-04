@@ -172,7 +172,7 @@ public:
    *
    * \returns Was the insertion of the new cloud successful
    */
-  bool insertDataCloud(const std::string data_identifier,
+  bool insertDataCloud(const std::string& data_identifier,
                        const DataCloudT::ConstPtr& cloud,
                        const Eigen::Matrix<double, 3, 1>& origin);
 

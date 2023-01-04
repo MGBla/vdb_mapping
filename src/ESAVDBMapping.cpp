@@ -81,14 +81,16 @@ void ESAVDBMapping::setConfig(const Config& config)
   }
   m_max_range = config.max_range;
   // Store probabilities as log odds
-  m_logodds_miss      = log(config.prob_miss) - log(1 - config.prob_miss);
-  m_logodds_hit       = log(config.prob_hit) - log(1 - config.prob_hit);
-  m_logodds_thres_min = log(config.prob_thres_min) - log(1 - config.prob_thres_min);
-  m_logodds_thres_max = log(config.prob_thres_max) - log(1 - config.prob_thres_max);
-  m_config_set        = true;
+  m_logodds_miss = static_cast<float>(log(config.prob_miss) - log(1 - config.prob_miss));
+  m_logodds_hit  = static_cast<float>(log(config.prob_hit) - log(1 - config.prob_hit));
+  m_logodds_thres_min =
+    static_cast<float>(log(config.prob_thres_min) - log(1 - config.prob_thres_min));
+  m_logodds_thres_max =
+    static_cast<float>(log(config.prob_thres_max) - log(1 - config.prob_thres_max));
+  m_config_set = true;
 }
 
-bool ESAVDBMapping::insertDataCloud(const std::string data_identifier,
+bool ESAVDBMapping::insertDataCloud(const std::string& data_identifier,
                                     const DataCloudT::ConstPtr& cloud,
                                     const Eigen::Matrix<double, 3, 1>& origin)
 {

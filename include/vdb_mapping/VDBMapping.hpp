@@ -504,8 +504,8 @@ void VDBMapping<TData, TConfig>::setConfig(const TConfig& config)
   m_config_set         = true;
 }
 
-template <typename DataT, typename ConfigT>
-bool VDBMapping<DataT, ConfigT>::insertDataCloud(const std::string data_identifier,
+template <typename TData, typename TConfig>
+bool VDBMapping<TData, TConfig>::insertDataCloud(const std::string& data_identifier,
                                                  const DataCloudT::ConstPtr& cloud,
                                                  const Eigen::Matrix<double, 3, 1>& origin)
 {
